@@ -1,1 +1,5 @@
-# react-native-carousel-slide
+# React native animated carousel
+
+
+# Installation
+
