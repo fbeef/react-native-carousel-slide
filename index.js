@@ -28,12 +28,28 @@ interface CarouselProps {
   index: number;
   scrollX: number;
   image: string;
-  // onPress: () => void;
+  borderRadius: number;
+  shadowColor: string;
+  shadowOpacity: number;
+  shadowRadius: number;
+  shadowOffset: number;
+  onPress: () => void;
   // color: string;
 }
 console.log('width', width);
 
-function Item({ index, scrollX, image, onPress, input }: CarouselProps) {
+function Item({
+  index,
+  scrollX,
+  image,
+  onPress,
+  input,
+  borderRadius,
+  shadowColor,
+  shadowOpacity,
+  shadowRadius,
+  shadowOffset,
+}: CarouselProps) {
   console.log('item', input);
 
   const size = useSharedValue(0.8);
@@ -66,10 +82,25 @@ function Item({ index, scrollX, image, onPress, input }: CarouselProps) {
     Extrapolate.CLAMP
   );
 
+  const marginTop = useSharedValue(0);
+  const marginTopInputRange = [
+    (index - 1) * CARD_LENGTH,
+    index * CARD_LENGTH,
+    (index + 1) * CARD_LENGTH,
+  ];
+
+  marginTop.value = interpolate(
+    scrollX,
+    marginTopInputRange,
+    [0, 30, 0],
+    Extrapolate.CLAMP
+  );
+
   const cardStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scaleY: size.value }],
       opacity: opacity.value,
+      marginTop: marginTop.value,
     };
   });
 
@@ -77,16 +108,17 @@ function Item({ index, scrollX, image, onPress, input }: CarouselProps) {
     <TouchableOpacity
       onPress={handlePress}
       style={{
-        shadowOpacity: 3,
-        shadowColor: 'grey',
-        shadowOffset: 0.1,
-        shadowRadius: 5,
+        shadowOpacity: shadowOpacity,
+        shadowColor: shadowColor,
+        shadowOffset: shadowOffset,
+        shadowRadius: shadowRadius,
       }}
     >
       <Animated.View
         style={[
           styles.box,
           cardStyle,
+          // {marginTop: 300},
           {
             marginLeft: index == 0 ? SIDECARD_LENGTH : SPACING,
             marginRight: index == 2 ? SIDECARD_LENGTH : SPACING,
@@ -107,19 +139,30 @@ function Item({ index, scrollX, image, onPress, input }: CarouselProps) {
           },
         ]}
       /> */}
-        <Image source={image} style={{ width: '100%', height: '100%' }} />
+        <Image
+          source={image}
+          style={{ width: '100%', height: '100%', borderRadius: borderRadius }}
+        />
       </Animated.View>
     </TouchableOpacity>
   );
 }
 
-const FirstCarousel = ({ input, onPress }) => {
+const FirstCarousel = ({
+  input,
+  onPress,
+  borderRadius,
+  shadowColor,
+  shadowOpacity,
+  shadowRadius,
+  shadowOffset,
+}) => {
   // const height = useSharedValue(300);
   const [scrollX, setScrollX] = useState(0);
   console.log('first', input);
 
   return (
-    <Animated.View>
+    <Animated.View style={{ flex: 1 }}>
       <AnimatedFlatList
         scrollEventThrottle={30}
         showsHorizontalScrollIndicator={false}
@@ -141,6 +184,11 @@ const FirstCarousel = ({ input, onPress }) => {
               // image={item.image}
               image={item.image}
               onPress={onPress}
+              borderRadius={borderRadius}
+              shadowColor={shadowColor}
+              shadowOpacity={shadowOpacity}
+              shadowRadius={shadowRadius}
+              shadowOffset={shadowOffset}
             />
           );
         }}
@@ -159,7 +207,7 @@ const styles = StyleSheet.create({
     width: CARD_LENGTH,
     height: 300,
     margin: 10,
-    borderTopRightRadius: 20,
+    // borderTopRightRadius: 300,
   },
 });
 
