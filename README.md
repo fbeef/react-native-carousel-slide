@@ -21,6 +21,10 @@ or
 yarn add react-native-carousel-slide
 ```
 
+## Screenshots
+
+<img width="314" alt="image" src="https://github.com/fbeef/react-native-carousel-slide/blob/main/screenshots.png">
+
 ## Example
 
 ```jsx
