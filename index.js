@@ -28,12 +28,20 @@ interface CarouselProps {
   index: number;
   scrollX: number;
   image: string;
+  borderRadius: string;
   // onPress: () => void;
   // color: string;
 }
 console.log('width', width);
 
-function Item({ index, scrollX, image, onPress, input }: CarouselProps) {
+function Item({
+  index,
+  scrollX,
+  image,
+  onPress,
+  input,
+  borderRadius,
+}: CarouselProps) {
   console.log('item', input);
 
   const size = useSharedValue(0.8);
@@ -107,13 +115,16 @@ function Item({ index, scrollX, image, onPress, input }: CarouselProps) {
           },
         ]}
       /> */}
-        <Image source={image} style={{ width: '100%', height: '100%' }} />
+        <Image
+          source={image}
+          style={{ width: '100%', height: '100%', borderRadius: borderRadius }}
+        />
       </Animated.View>
     </TouchableOpacity>
   );
 }
 
-const FirstCarousel = ({ input, onPress }) => {
+const FirstCarousel = ({ input, onPress, borderRadius }) => {
   // const height = useSharedValue(300);
   const [scrollX, setScrollX] = useState(0);
   console.log('first', input);
@@ -141,6 +152,7 @@ const FirstCarousel = ({ input, onPress }) => {
               // image={item.image}
               image={item.image}
               onPress={onPress}
+              borderRadius={borderRadius}
             />
           );
         }}

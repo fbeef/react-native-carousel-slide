@@ -1,9 +1,24 @@
 # React native animated carousel
 
+## Prerequisites
+
+⚠️ Peer Dependencies
+
+- [react-native-reanimated-v3](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started)
+
+This component has a peer dependency on react-native-reanimated-v3. react-native-reanimated-v2 has to be installed and linked into your project.
+Follow [react-native-reanimated-v3](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started) to install the dependency.
+
 # Installation
 
 ```bash
 npm install react-native-carousel-slide
+```
+
+or
+
+```bash
+yarn add react-native-carousel-slide
 ```
 
 ## Example
@@ -67,7 +82,7 @@ const data = [
 ...
 
 
- <Carousel input={data} onPress={handleImagePress} />
+ <Carousel input={data} onPress={handleImagePress} borderRadius={10} />
 
 
 ```
