@@ -28,12 +28,8 @@ interface CarouselProps {
   index: number;
   scrollX: number;
   image: string;
-  borderRadius: number;
-  shadowColor: string;
-  shadowOpacity: number;
-  shadowRadius: number;
-  shadowOffset: number;
-  onPress: () => void;
+  borderRadius: string;
+  // onPress: () => void;
   // color: string;
 }
 console.log('width', width);
@@ -45,10 +41,6 @@ function Item({
   onPress,
   input,
   borderRadius,
-  shadowColor,
-  shadowOpacity,
-  shadowRadius,
-  shadowOffset,
 }: CarouselProps) {
   console.log('item', input);
 
@@ -82,25 +74,10 @@ function Item({
     Extrapolate.CLAMP
   );
 
-  const marginTop = useSharedValue(0);
-  const marginTopInputRange = [
-    (index - 1) * CARD_LENGTH,
-    index * CARD_LENGTH,
-    (index + 1) * CARD_LENGTH,
-  ];
-
-  marginTop.value = interpolate(
-    scrollX,
-    marginTopInputRange,
-    [0, 30, 0],
-    Extrapolate.CLAMP
-  );
-
   const cardStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scaleY: size.value }],
       opacity: opacity.value,
-      marginTop: marginTop.value,
     };
   });
 
@@ -108,17 +85,16 @@ function Item({
     <TouchableOpacity
       onPress={handlePress}
       style={{
-        shadowOpacity: shadowOpacity,
-        shadowColor: shadowColor,
-        shadowOffset: shadowOffset,
-        shadowRadius: shadowRadius,
+        shadowOpacity: 3,
+        shadowColor: 'grey',
+        shadowOffset: 0.1,
+        shadowRadius: 5,
       }}
     >
       <Animated.View
         style={[
           styles.box,
           cardStyle,
-          // {marginTop: 300},
           {
             marginLeft: index == 0 ? SIDECARD_LENGTH : SPACING,
             marginRight: index == 2 ? SIDECARD_LENGTH : SPACING,
@@ -148,21 +124,13 @@ function Item({
   );
 }
 
-const FirstCarousel = ({
-  input,
-  onPress,
-  borderRadius,
-  shadowColor,
-  shadowOpacity,
-  shadowRadius,
-  shadowOffset,
-}) => {
+const FirstCarousel = ({ input, onPress, borderRadius }) => {
   // const height = useSharedValue(300);
   const [scrollX, setScrollX] = useState(0);
   console.log('first', input);
 
   return (
-    <Animated.View style={{ flex: 1 }}>
+    <Animated.View>
       <AnimatedFlatList
         scrollEventThrottle={30}
         showsHorizontalScrollIndicator={false}
@@ -185,10 +153,6 @@ const FirstCarousel = ({
               image={item.image}
               onPress={onPress}
               borderRadius={borderRadius}
-              shadowColor={shadowColor}
-              shadowOpacity={shadowOpacity}
-              shadowRadius={shadowRadius}
-              shadowOffset={shadowOffset}
             />
           );
         }}
@@ -207,7 +171,7 @@ const styles = StyleSheet.create({
     width: CARD_LENGTH,
     height: 300,
     margin: 10,
-    // borderTopRightRadius: 300,
+    borderTopRightRadius: 20,
   },
 });
 
